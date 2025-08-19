@@ -1,0 +1,4 @@
+torch
+mlflow
+tensorflow-datasets
+hydra-core
