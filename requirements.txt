@@ -2,3 +2,4 @@ torch
 mlflow
 tensorflow-datasets
 hydra-core
+mat4py
