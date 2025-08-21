@@ -1,5 +1,6 @@
 data/cars196
 data/images
+data/explore.py
 !data/.gitkeep
 diplomski-venv/
 mlruns/
