@@ -1,5 +1,4 @@
-from torchvision import dataset, transforms
-
+from torchvision import transforms
 import sys
 import os
 import yaml
@@ -9,20 +8,25 @@ with open('./config/config.yaml', 'r') as f:
 
 class Transformer:
     def __init__(self):
-        self.classes_to_augment = explore.result_list
-
         self.augment_transforms = transforms.Compose([
-            transforms.Resize((256,256)),
+            transforms.Resize((data['image_dimensions']['height'],data['image_dimensions']['width'])),
             transforms.RandomCrop((224,224)),
             transforms.RandomHorizontalFlip(p=0.3),
             transforms.RandomGrayscale(p=0.3),
             transforms.RandomRotation(10),
             transforms.ToTensor(),
-            transforms.Normalize(explore.avg_mean, explore.avg_std)
+            transforms.Normalize(data['explorations']['mean'], data['explorations']['std'])
         ])
 
         self.normal_transforms = transforms.Compose([
-            transforms.Resize((256,256)),
+            transforms.Resize((data['image_dimensions']['height'],data['image_dimensions']['width'])),
             transforms.ToTensor(),
-            transforms.Normalize(explore.avg_mean, explore.avg_std) # tensor([[0.4691, 0.4588, 0.4540]], tensor([[0.2596, 0.2582, 0.2631]]
+            transforms.Normalize(data['explorations']['mean'], data['explorations']['std'])
+            # tensor([[0.4691, 0.4588, 0.4540]], tensor([[0.2596, 0.2582, 0.2631]]
         ])
+
+    def __call__(self, img, augment: bool = False):
+        if augment:
+            return self.augment_transforms(img)
+        else:
+            return self.normal_transforms(img)
