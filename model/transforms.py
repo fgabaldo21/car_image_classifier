@@ -10,7 +10,6 @@ class Transformer:
     def __init__(self):
         self.augment_transforms = transforms.Compose([
             transforms.Resize((data['image_dimensions']['height'],data['image_dimensions']['width'])),
-            transforms.RandomCrop((224,224)),
             transforms.RandomHorizontalFlip(p=0.3),
             transforms.RandomGrayscale(p=0.3),
             transforms.RandomRotation(10),
@@ -22,7 +21,6 @@ class Transformer:
             transforms.Resize((data['image_dimensions']['height'],data['image_dimensions']['width'])),
             transforms.ToTensor(),
             transforms.Normalize(data['explorations']['mean'], data['explorations']['std'])
-            # tensor([[0.4691, 0.4588, 0.4540]], tensor([[0.2596, 0.2582, 0.2631]]
         ])
 
     def __call__(self, img, augment: bool = False):

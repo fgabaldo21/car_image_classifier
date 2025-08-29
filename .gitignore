@@ -4,4 +4,4 @@ data/explore.py
 !data/.gitkeep
 diplomski-venv/
 mlruns/
-/__pycache__/*
+__pycache__/
