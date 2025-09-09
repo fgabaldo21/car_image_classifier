@@ -1,6 +1,6 @@
 image_dimensions:
-  height: 256
-  width: 256
+  height: 128
+  width: 128
 
 params:
   learning_rate: 0.001
@@ -12,7 +12,7 @@ paths:
   data_mat: data/cars196/car_devkit/devkit/cars_train_annos.mat
   train_original: data/cars196/cars_train/cars_train
   test_original: data/cars196/cars_test/cars_test
-  images: ./data/images
+  images: data/images
   
 explorations:
   mean:

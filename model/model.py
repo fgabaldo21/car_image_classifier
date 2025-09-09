@@ -11,9 +11,9 @@ class Cnn(nn.Module):
         self.conv4 = nn.Conv2d(in_channels=256, out_channels=512, kernel_size=4, stride=1, padding=1)
         self.conv5 = nn.Conv2d(in_channels=512, out_channels=256, kernel_size=4, stride=1, padding=1)
         
-        self.linear1 = nn.Linear(in_features=215296, out_features=512)
-        self.linear2 = nn.Linear(in_features=512, out_features=128)
-        self.linear3 = nn.Linear(in_features=128, out_features=10)
+        self.linear1 = nn.Linear(in_features=43264, out_features=512)
+        self.linear2 = nn.Linear(in_features=512, out_features=256)
+        self.linear3 = nn.Linear(in_features=256, out_features=196)
         
         self.dropout = nn.Dropout()
         self.flatten = nn.Flatten(start_dim=1)
@@ -56,11 +56,11 @@ class Cnn(nn.Module):
 
 # test block
 
-dummy_input = torch.randn(1, 3, 256, 256)
+"""dummy_input = torch.randn(1, 3, 128, 128)
 
 model = Cnn()
 
 with torch.no_grad():
     output = model(dummy_input)
 
-print("Output shape:", output.shape)
+print("Output shape:", output.shape)"""

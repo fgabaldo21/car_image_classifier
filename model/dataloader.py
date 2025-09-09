@@ -17,12 +17,13 @@ class CarDataset(Dataset):
         self.augment = augment
         self.samples = []
 
-        for index in os.listdir(self.img_dir):
-            class_path = os.path.join(self.img_dir, index)
+        for index, label in enumerate(sorted(os.listdir(self.img_dir))):
+            class_path = os.path.join(self.img_dir, label)
             if not os.path.isdir(class_path):
                 comtinue
             for filename in os.listdir(class_path):
-                self.samples.append((os.path.join(class_path, filename), index))
+                if filename.lower().endswith((".png", ".jpg", ".bmp")):
+                    self.samples.append((os.path.join(class_path, filename), index))
 
     def __len__(self):
         return len(self.samples)
@@ -48,7 +49,7 @@ def get_dataloader():
         train, 
         batch_size=data['params']['batch_size'],
         shuffle=True,
-        num_workers=0) #data['params']['num_workers'])
+        num_workers=data['params']['num_workers'])
 
     test_loader = DataLoader(
         test, 
