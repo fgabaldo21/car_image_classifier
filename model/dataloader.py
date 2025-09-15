@@ -20,7 +20,7 @@ class CarDataset(Dataset):
         for index, label in enumerate(sorted(os.listdir(self.img_dir))):
             class_path = os.path.join(self.img_dir, label)
             if not os.path.isdir(class_path):
-                comtinue
+                continue
             for filename in os.listdir(class_path):
                 if filename.lower().endswith((".png", ".jpg", ".bmp")):
                     self.samples.append((os.path.join(class_path, filename), index))

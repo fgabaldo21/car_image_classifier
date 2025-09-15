@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Prepoznavanje automobila</title>
+{% endblock head %}
+
+{% block body %}
+<div class="content">
+    <h1>Prepoznavanje automobila</h1>
+    <form method="post" enctype="multipart/form-data">
+        {{form.hidden_tag()}}
+
+        {% for error in form.photo.errors %}
+            <span>{{error}}</span>
+        {% endfor %}
+
+        <div class="row justify-content-center">
+            <div class="col-auto">
+                {{ form.photo(class="form-control") }}
+            </div>
+            <div class="col-auto">
+                {{ form.submit(class="btn btn-success") }}
+            </div>
+        </div>
+    </form>
+
+    {% if file_url %}
+        <div class="mt-5">
+            <img src="{{ file_url }}">
+        </div>
+    {% endif %}
+</div>
+{% endblock body %}
