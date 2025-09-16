@@ -2,7 +2,9 @@ import os
 import shutil
 import atexit
 
-UPLOAD_FOLDER = 'uploads'
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+
+UPLOAD_FOLDER = os.path.join(BASE_DIR, "uploads")
 
 def clear_uploads():
     if os.path.exists(UPLOAD_FOLDER):

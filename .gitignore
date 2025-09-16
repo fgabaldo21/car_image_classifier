@@ -5,5 +5,5 @@ data/explore.py
 diplomski-venv/
 mlruns/
 __pycache__/
-app/model/*
+app/ml_model/*
 app/uploads/*

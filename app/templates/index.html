@@ -29,5 +29,11 @@
             <img src="{{ file_url }}">
         </div>
     {% endif %}
+
+    {% if prediction %}
+        <div class="prediction">
+            <h3>{{prediction}}</h3>
+        </div>
+    {% endif %}
 </div>
 {% endblock body %}

@@ -5,11 +5,16 @@ from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired, FileAllowed
 from wtforms import SubmitField
 
-from utils.cleanup import clear_uploads, register_cleanup
+from app.utils.cleanup import clear_uploads, register_cleanup
+from app.utils.predict import predict
+
+import os
+
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'wnrhbnwrzngbwzgv'
-app.config['UPLOADED_PHOTOS_DEST'] = 'uploads'
+app.config['UPLOADED_PHOTOS_DEST'] = os.path.join(BASE_DIR, "uploads")
 
 clear_uploads()
 register_cleanup()
@@ -35,14 +40,20 @@ def get_file(filename):
 def index():
     form = UploadForm()
     
+    prediction = None
+    file_url = None
+    
     if form.validate_on_submit():
         filename = photos.save(form.photo.data)
         return redirect(url_for('index', filename=filename))
     
     filename = request.args.get('filename')
-    file_url = url_for('get_file', filename=filename) if filename else None
+    if filename:
+        file_path = os.path.join(app.config['UPLOADED_PHOTOS_DEST'], filename)
+        file_url = url_for('get_file', filename=filename) if filename else None
+        prediction = predict(file_path)
         
-    return render_template('index.html', form=form, file_url=file_url)
+    return render_template('index.html', form=form, file_url=file_url, prediction=prediction)
 
 if __name__ == '__main__':
     app.run(debug=True)
