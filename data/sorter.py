@@ -1,12 +1,13 @@
-import mat4py
 import os
 import shutil
 
-data = mat4py.loadmat('data/cars196/car_devkit/devkit/cars_train_annos.mat')
+import mat4py
 
-classes = data['annotations'].get('class')
+data = mat4py.loadmat("data/cars196/car_devkit/devkit/cars_train_annos.mat")
 
-images = data['annotations'].get('fname')
+classes = data["annotations"].get("class")
+
+images = data["annotations"].get("fname")
 
 root_name = "data/images"
 
@@ -15,9 +16,9 @@ images_path = "data/cars196/cars_train/cars_train"
 if not os.path.exists(root_name):
     os.makedirs(root_name)
 
-for i in range(1,197):
+for i in range(1, 197):
     path = os.path.join(root_name, str(i))
-    
+
     if not os.path.exists(path):
         os.mkdir(path)
 

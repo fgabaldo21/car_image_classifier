@@ -1,11 +1,12 @@
-from torch.utils.data import Dataset, DataLoader, ConcatDataset, random_split
-from transforms import Transformer
 import os
-from PIL import Image
-import yaml
 
-from torchvision.utils import make_grid
 import matplotlib.pyplot as plt
+import yaml
+from PIL import Image
+from torch.utils.data import ConcatDataset, DataLoader, Dataset, random_split
+from torchvision.utils import make_grid
+
+from .transforms import Transformer
 
 with open('./config/config.yaml', 'r') as f:
     data = yaml.safe_load(f)
