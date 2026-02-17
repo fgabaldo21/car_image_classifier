@@ -3,7 +3,7 @@ image_dimensions:
   width: 256
 
 params:
-  learning_rate: 0.1
+  learning_rate: 0.01
   num_epochs: 20
   batch_size: 64
   num_workers: 6

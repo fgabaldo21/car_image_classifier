@@ -1,7 +1,8 @@
 import torch
 import torch.nn as nn
 import yaml
-from block import Block
+
+from model.block import Block
 
 with open("./config/config.yaml", "r") as f:
     data = yaml.safe_load(f)
