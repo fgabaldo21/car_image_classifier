@@ -2,7 +2,9 @@ data/cars196
 data/images
 data/explore.py
 !data/.gitkeep
+
 diplomski-venv/
+
 mlruns/
 __pycache__/
 app/ml_model/*
