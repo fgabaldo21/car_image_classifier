@@ -51,7 +51,7 @@ class Block(nn.Module):
         else:
             self.downsample = None
 
-    def forward(self, x):
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
         identity = x
         if self.downsample is not None:
             identity = self.downsample(identity)
@@ -70,12 +70,13 @@ class Block(nn.Module):
         return x
 
 
-# test block
+if __name__ == "__main__":
+    # test block
 
-block = Block(in_channels=64, out_channels=128, stride=2)
+    block = Block(in_channels=64, out_channels=128, stride=2)
 
-x = torch.randn(1, 64, 56, 56)
+    x = torch.randn(1, 64, 56, 56)
 
-output = block(x)
+    output = block(x)
 
-print(output.shape)
+    print(output.shape)

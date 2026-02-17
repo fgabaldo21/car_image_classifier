@@ -32,7 +32,7 @@ torch.save(model.state_dict(), "app/ml_model/model.pth")  # a random model for t
 model.eval()
 
 
-def predict(img):
+def predict(img: str) -> str:
     transform = transforms.Compose(
         [
             transforms.Resize((128, 128)),

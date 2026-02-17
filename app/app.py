@@ -40,16 +40,15 @@ class UploadForm(FlaskForm):
 
 
 @app.route("/uploads/<filename>")
-def get_file(filename):
+def get_file(filename: str):
     return send_from_directory(app.config["UPLOADED_PHOTOS_DEST"], filename)
 
 
 @app.route("/", methods=["GET", "POST"])
 def index():
-    form = UploadForm()
-
-    prediction = None
-    file_url = None
+    form: UploadForm = UploadForm()
+    prediction: str | None = None
+    file_url: str | None = None
 
     if form.validate_on_submit():
         filename = photos.save(form.photo.data)

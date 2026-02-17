@@ -15,7 +15,7 @@ with open("./config/config.yaml", "r") as f:
 def main(
     num_epochs: int = 10,
     learning_rate: float = 0.01,
-):
+) -> None:
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     model = Cnn().to(device)

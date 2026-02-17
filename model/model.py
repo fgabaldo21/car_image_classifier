@@ -34,7 +34,9 @@ class Cnn(nn.Module):
         self.globalPool = nn.AdaptiveAvgPool2d(output_size=(1, 1))
         self.linear = nn.Linear(in_features=512, out_features=196)
 
-    def _make_layer(self, num_blocks: int, out_channels: int, stride: int):
+    def _make_layer(
+        self, num_blocks: int, out_channels: int, stride: int
+    ) -> nn.Sequential:
         layers = []
 
         layers.append(
@@ -52,7 +54,7 @@ class Cnn(nn.Module):
 
         return nn.Sequential(*layers)
 
-    def forward(self, x):
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
         x = self.conv(x)
         x = self.batchNorm(x)
         x = self.activation(x)
@@ -70,13 +72,13 @@ class Cnn(nn.Module):
         return x
 
 
-# test block
+if __name__ == "__main__":
+    # test block
+    dummy_input = torch.randn(1, 3, 256, 256)
 
-dummy_input = torch.randn(1, 3, 256, 256)
+    model = Cnn()
 
-model = Cnn()
+    with torch.no_grad():
+        output = model(dummy_input)
 
-with torch.no_grad():
-    output = model(dummy_input)
-
-print("Output shape:", output.shape)
+    print("Output shape:", output.shape)

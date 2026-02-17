@@ -33,7 +33,7 @@ class CarDataset(Dataset):
     def __len__(self):
         return len(self.samples)
 
-    def __getitem__(self, index: int):
+    def __getitem__(self, index: int) -> tuple[Image.Image, int]:
         path, label = self.samples[index]
 
         img = Image.open(path).convert("RGB")
@@ -43,7 +43,7 @@ class CarDataset(Dataset):
         return img, label
 
 
-def get_dataloader():
+def get_dataloader() -> tuple[DataLoader, DataLoader, DataLoader]:
     original_dataset = CarDataset()
     train_idx, val_idx, test_idx = random_split(
         range(len(original_dataset)), [6500, 1000, 644]

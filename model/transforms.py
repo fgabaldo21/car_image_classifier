@@ -1,4 +1,6 @@
+import torch
 import yaml
+from PIL import Image
 from torchvision import transforms
 
 with open("./config/config.yaml", "r") as f:
@@ -40,7 +42,7 @@ class Transformer:
             ]
         )
 
-    def __call__(self, img, augment: bool = False):
+    def __call__(self, img: Image.Image, augment: bool = False) -> torch.Tensor:
         if augment:
             return self.augment_transforms(img)
         else:
