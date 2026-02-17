@@ -1,3 +1,4 @@
+import torch
 import torch.nn as nn
 
 
@@ -69,7 +70,12 @@ class Block(nn.Module):
         return x
 
 
-"""block = Block(in_channels=64, out_channels=128, stride=2)
+# test block
+
+block = Block(in_channels=64, out_channels=128, stride=2)
+
 x = torch.randn(1, 64, 56, 56)
+
 output = block(x)
-print(output.shape)"""
+
+print(output.shape)
