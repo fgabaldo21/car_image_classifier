@@ -20,18 +20,45 @@ def main(
 
     model = Cnn().to(device)
 
+    weight_decay = data["params"].get("weight_decay", 5e-4)
+    min_learning_rate = data["params"].get("min_learning_rate", 1e-4)
+    warmup_epochs = min(data["params"].get("warmup_epochs", 3), max(num_epochs - 1, 0))
+    label_smoothing = data["params"].get("label_smoothing", 0.05)
+
     optimizer = optim.SGD(
-        model.parameters(), lr=learning_rate, momentum=0.9, weight_decay=1e-4
+        model.parameters(), lr=learning_rate, momentum=0.9, weight_decay=weight_decay
     )
-    scheduler = optim.lr_scheduler.CosineAnnealingLR(
-        optimizer=optimizer, T_max=num_epochs
-    )
-    loss_f = nn.CrossEntropyLoss()
+
+    if warmup_epochs > 0:
+        warmup_scheduler = optim.lr_scheduler.LinearLR(
+            optimizer=optimizer,
+            start_factor=0.1,
+            end_factor=1.0,
+            total_iters=warmup_epochs,
+        )
+        cosine_scheduler = optim.lr_scheduler.CosineAnnealingLR(
+            optimizer=optimizer,
+            T_max=max(num_epochs - warmup_epochs, 1),
+            eta_min=min_learning_rate,
+        )
+        scheduler = optim.lr_scheduler.SequentialLR(
+            optimizer=optimizer,
+            schedulers=[warmup_scheduler, cosine_scheduler],
+            milestones=[warmup_epochs],
+        )
+    else:
+        scheduler = optim.lr_scheduler.CosineAnnealingLR(
+            optimizer=optimizer,
+            T_max=max(num_epochs, 1),
+            eta_min=min_learning_rate,
+        )
+
+    loss_f = nn.CrossEntropyLoss(label_smoothing=label_smoothing)
 
     train_loader, val_loader, test_loader = get_dataloader()
 
     best_val_accuracy = 0.0
-    patience = 5
+    patience = data["params"]["patience"]
     epochs_no_improve = 0
 
     for epoch in range(num_epochs):

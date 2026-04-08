@@ -18,7 +18,6 @@ class Transformer:
                     )
                 ),
                 transforms.RandomHorizontalFlip(p=0.3),
-                transforms.RandomGrayscale(p=0.3),
                 transforms.RandomRotation(10),
                 transforms.ToTensor(),
                 transforms.Normalize(
