@@ -1,3 +1,4 @@
+import csv
 import os
 
 import mat4py
@@ -25,6 +26,7 @@ class_names = name_data["class_names"]
 
 
 MODEL_PATH = os.path.join(BASE_DIR, "app", "ml_model", "model.pth")
+CAR_DETAILS_PATH = os.path.join(BASE_DIR, "app", "utils", "car_details.csv")
 
 device = torch.device("cpu")
 model = model_module.Cnn()
@@ -32,10 +34,19 @@ torch.save(model.state_dict(), "app/ml_model/model.pth")  # a random model for t
 model.eval()
 
 
-def predict(img: str) -> str:
+def _load_car_details() -> list[dict[str, str]]:
+    with open(CAR_DETAILS_PATH, newline="", encoding="utf-8") as csvfile:
+        reader = csv.DictReader(csvfile)
+        return list(reader)
+
+
+car_details_data = _load_car_details()
+
+
+def predict(img: str) -> dict[str, object]:
     transform = transforms.Compose(
         [
-            transforms.Resize((128, 128)),
+            transforms.Resize((256, 256)),
             transforms.ToTensor(),
             transforms.Normalize(
                 data["explorations"]["mean"], data["explorations"]["std"]
@@ -51,4 +62,15 @@ def predict(img: str) -> str:
         prediction = model(transformed_image)
         predicted_class = prediction.argmax(dim=1).item()
 
-    return class_names[predicted_class - 1]
+    class_id = predicted_class + 1
+    details = (
+        car_details_data[predicted_class]
+        if predicted_class < len(car_details_data)
+        else None
+    )
+
+    return {
+        "class_id": class_id,
+        "class_name": class_names[predicted_class],
+        "details": details,
+    }

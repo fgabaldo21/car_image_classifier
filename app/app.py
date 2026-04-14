@@ -48,6 +48,7 @@ def get_file(filename: str):
 def index():
     form: UploadForm = UploadForm()
     prediction: str | None = None
+    car_details: dict[str, str] | None = None
     file_url: str | None = None
 
     if form.validate_on_submit():
@@ -58,10 +59,16 @@ def index():
     if filename:
         file_path = os.path.join(app.config["UPLOADED_PHOTOS_DEST"], filename)
         file_url = url_for("get_file", filename=filename) if filename else None
-        prediction = predict(file_path)
+        prediction_result = predict(file_path)
+        prediction = prediction_result["class_name"]
+        car_details = prediction_result["details"]
 
     return render_template(
-        "index.html", form=form, file_url=file_url, prediction=prediction
+        "index.html",
+        form=form,
+        file_url=file_url,
+        prediction=prediction,
+        car_details=car_details,
     )
 
 

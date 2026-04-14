@@ -25,14 +25,34 @@
     </form>
 
     {% if file_url %}
-        <div class="mt-5">
-            <img src="{{ file_url }}">
-        </div>
-    {% endif %}
+        <div class="result-block mt-5">
+            {% if prediction %}
+                <h3 class="vehicle-title">{{ prediction }}</h3>
+            {% endif %}
 
-    {% if prediction %}
-        <div class="prediction">
-            <h3>{{prediction}}</h3>
+            <div class="result-layout">
+            <div class="image-panel">
+                <img src="{{ file_url }}" alt="Učitana slika automobila">
+            </div>
+
+            <div class="details-panel">
+                {% if car_details %}
+                    <h4>Detalji vozila</h4>
+                    <table class="details-table">
+                        <tbody>
+                            {% for key, value in car_details.items() %}
+                                <tr>
+                                    <th>{{ key }}</th>
+                                    <td>{{ value }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p>Detalji za ovu klasu nisu pronađeni u CSV datoteci.</p>
+                {% endif %}
+            </div>
+            </div>
         </div>
     {% endif %}
 </div>
